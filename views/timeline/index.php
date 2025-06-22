@@ -74,9 +74,9 @@ include 'views/layouts/header.php';
                     <?php endif; ?>
 
                     <div class="timeline-share-buttons">
-                        <button class="share-btn x-share-btn" data-title="<?php echo htmlspecialchars($item['title']); ?>" data-url="<?php echo htmlspecialchars("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"); ?>"><img src="assets/images/x_logo.png" alt="X"></button>
-                        <button class="share-btn facebook-share-btn" data-url="<?php echo htmlspecialchars("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"); ?>"><img src="assets/images/facebook_logo.png" alt="Facebook"></button>
-                        <button class="share-btn whatsapp-share-btn" data-title="<?php echo htmlspecialchars($item['title']); ?>" data-url="<?php echo htmlspecialchars("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"); ?>"><img src="assets/images/whatsapp_logo.png" alt="WhatsApp"></button>
+                        <button class="share-btn x-share-btn" data-title="<?php echo htmlspecialchars($item['title']); ?>" data-description="<?php echo htmlspecialchars($item['description']); ?>" data-url="<?php echo htmlspecialchars("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"); ?>"><img src="assets/images/x_logo.png" alt="X"></button>
+                        <button class="share-btn facebook-share-btn" data-url="<?php echo htmlspecialchars("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"); ?>"><img src="assets/images/facebook_logo.png" alt="Facebook"></button> <!-- Facebook uses OG tags for description -->
+                        <button class="share-btn whatsapp-share-btn" data-title="<?php echo htmlspecialchars($item['title']); ?>" data-description="<?php echo htmlspecialchars($item['description']); ?>" data-url="<?php echo htmlspecialchars("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"); ?>"><img src="assets/images/whatsapp_logo.png" alt="WhatsApp"></button>
                     </div>
                 </div>
             </div>
