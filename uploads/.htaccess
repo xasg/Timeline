@@ -1,0 +1,17 @@
+# Security for uploads directory
+<Files "*">
+    Order Allow,Deny
+    Allow from all
+</Files>
+
+# Prevent execution of PHP files
+<FilesMatch "\.php$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Allow common media types
+<FilesMatch "\.(jpg|jpeg|png|gif|pdf|mp4|mov|avi|webm)$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>

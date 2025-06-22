@@ -1,0 +1,447 @@
+<?php
+require_once 'config.php';
+require_once 'controllers/TimelineController.php';
+
+$controller = new TimelineController($pdo);
+$controller->index();
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>10 AÑOS ANUIES TIC</title>
+  <meta name="description" content="Una década de innovación y colaboración en la educación superior mexicana - Comité ANUIES TIC">
+  <style>
+    :root {
+      --primary-color: #882642;
+      --secondary-color: #f8f8f8;
+      --accent-color: #c16c81;
+      --text-color: #333333;
+      --light-text: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--secondary-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    .header {
+      background-color: var(--primary-color);
+      color: var(--light-text);
+      padding: 1.5rem 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 120px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo-container {
+      flex-shrink: 0;
+      height: 80%;
+      width: auto;
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .logo-placeholder {
+      height: 60px;
+      width: 120px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .header-content {
+      flex: 1;
+      text-align: center;
+      margin-left: 20px;
+    }
+
+    .header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    .admin-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      padding: 8px 16px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .admin-btn:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .filters {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-btn {
+      background-color: white;
+      border: 2px solid var(--primary-color);
+      color: var(--primary-color);
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .timeline-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 10px;
+      position: relative;
+    }
+
+    .timeline-line {
+      position: absolute;
+      width: 6px;
+      background: linear-gradient(180deg, var(--primary-color) 0%, var(--accent-color) 100%);
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .timeline-item {
+      padding: 10px 40px;
+      position: relative;
+      width: 50%;
+      margin: 40px 0;
+      animation: fadeIn 0.6s ease-in-out;
+      opacity: 0;
+    }
+
+    .timeline-item.visible {
+      opacity: 1;
+    }
+
+    .timeline-item:nth-child(odd) {
+      left: 0;
+    }
+
+    .timeline-item:nth-child(even) {
+      left: 50%;
+    }
+
+    .timeline-dot {
+      width: 20px;
+      height: 20px;
+      background-color: var(--accent-color);
+      border-radius: 50%;
+      position: absolute;
+      right: -10px;
+      top: 20px;
+      z-index: 10;
+      border: 4px solid var(--primary-color);
+    }
+
+    .timeline-item:nth-child(even) .timeline-dot {
+      left: -10px;
+    }
+
+    .timeline-date {
+      display: inline-block;
+      background-color: var(--primary-color);
+      color: var(--light-text);
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .timeline-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .timeline-content:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .timeline-content h2 {
+      color: var(--primary-color);
+      margin-bottom: 10px;
+      font-size: 1.4rem;
+    }
+
+    .timeline-content p {
+      margin-bottom: 15px;
+    }
+
+    .type-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+
+    .type-eventos {
+      background-color: #e3f2fd;
+      color: #1565c0;
+    }
+
+    .type-proyectos {
+      background-color: #e8f5e8;
+      color: #2e7d32;
+    }
+
+    .type-publicaciones {
+      background-color: #f3e5f5;
+      color: #7b1fa2;
+    }
+
+    .expand-button {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 15px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .expand-button:hover {
+      background-color: var(--accent-color);
+    }
+
+    .hidden-content {
+      display: none;
+      padding-top: 15px;
+      border-top: 1px dashed #ccc;
+      margin-top: 15px;
+    }
+
+    footer {
+      background-color: var(--primary-color);
+      color: var(--light-text);
+      text-align: center;
+      padding: 20px;
+      margin-top: 50px;
+    }
+
+    @media screen and (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+      }
+
+      .admin-btn {
+        position: static;
+        margin-top: 10px;
+      }
+
+      .timeline-line {
+        left: 30px;
+      }
+
+      .timeline-item {
+        width: calc(100% - 60px);
+        padding-left: 60px;
+      }
+
+      .timeline-item:nth-child(even) {
+        left: 0;
+      }
+
+      .timeline-dot {
+        left: 23px !important;
+        right: auto;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .no-items {
+      text-align: center;
+      padding: 60px 20px;
+      color: #666;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+    }
+
+    .error {
+      background-color: #ffe6e6;
+      color: #d00;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo-container">
+      <div class="logo-placeholder">ANUIES TIC</div>
+    </div>
+    <div class="header-content">
+      <h1>10 AÑOS ANUIES TIC</h1>
+      <p>Una década de innovación y colaboración</p>
+    </div>
+    <a href="login.php" class="admin-btn">👤 Admin</a>
+  </header>
+
+  <div class="filters">
+    <a href="?filter=all" class="filter-btn <?php echo $filter === 'all' ? 'active' : ''; ?>">Todos</a>
+    <a href="?filter=eventos" class="filter-btn <?php echo $filter === 'eventos' ? 'active' : ''; ?>">Eventos</a>
+    <a href="?filter=proyectos" class="filter-btn <?php echo $filter === 'proyectos' ? 'active' : ''; ?>">Proyectos</a>
+    <a href="?filter=publicaciones" class="filter-btn <?php echo $filter === 'publicaciones' ? 'active' : ''; ?>">Publicaciones</a>
+  </div>
+
+  <div class="timeline-container">
+    <div class="timeline-line"></div>
+
+    <?php if (empty($timelineItems)): ?>
+      <div class="no-items">
+        <h3>No hay elementos disponibles</h3>
+        <p>No se encontraron elementos en esta categoría.</p>
+      </div>
+    <?php else: ?>
+      <?php foreach ($timelineItems as $index => $item): ?>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date"><?php echo htmlspecialchars($item['date']); ?></div>
+          <div class="timeline-content">
+            <h2>
+              <?php echo htmlspecialchars($item['title']); ?>
+              <span class="type-badge type-<?php echo $item['type']; ?>">
+                <?php echo ucfirst($item['type']); ?>
+              </span>
+            </h2>
+            <p><?php echo htmlspecialchars($item['description']); ?></p>
+            
+            <?php if (!empty($item['image_url'])): ?>
+              <div style="margin: 15px 0; border-radius: 6px; overflow: hidden;">
+                <img src="<?php echo htmlspecialchars($item['image_url']); ?>" 
+                     alt="<?php echo htmlspecialchars($item['title']); ?>"
+                     style="width: 100%; height: auto; display: block;"
+                     onerror="this.style.display='none';">
+              </div>
+            <?php endif; ?>
+
+            <?php if (!empty($item['extended_content'])): ?>
+              <button class="expand-button" onclick="toggleContent(<?php echo $item['id']; ?>)">
+                Leer más
+              </button>
+              <div class="hidden-content" id="content-<?php echo $item['id']; ?>">
+                <p><?php echo htmlspecialchars($item['extended_content']); ?></p>
+              </div>
+            <?php endif; ?>
+          </div>
+        </div>
+      <?php endforeach; ?>
+    <?php endif; ?>
+  </div>
+
+  <footer>
+    <p><strong>10 AÑOS ANUIES TIC</strong></p>
+    <p>Una década de innovación y colaboración en la educación superior mexicana</p>
+  </footer>
+
+  <script>
+    // Intersection Observer for animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all timeline items
+    document.querySelectorAll('.timeline-item').forEach(item => {
+      observer.observe(item);
+    });
+
+    // Toggle extended content
+    function toggleContent(id) {
+      const content = document.getElementById('content-' + id);
+      const button = content.previousElementSibling;
+      
+      if (content.style.display === 'none' || content.style.display === '') {
+        content.style.display = 'block';
+        button.textContent = 'Leer menos';
+      } else {
+        content.style.display = 'none';
+        button.textContent = 'Leer más';
+      }
+    }
+  </script>
+</body>
+</html>
