@@ -264,10 +264,34 @@ class TimelineController {
     }
 
     private function reorderItems() {
-        $items = $_POST['items'] ?? [];
-        
-        if (empty($items)) {
+        $itemsData = $_POST['items'] ?? null;
+
+        if (empty($itemsData)) {
             return ['success' => false, 'message' => 'No hay elementos para reordenar'];
+        }
+
+        $items = [];
+        if (is_string($itemsData)) {
+            $items = json_decode($itemsData, true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                return ['success' => false, 'message' => 'Formato de datos de reordenación inválido.'];
+            }
+        } elseif (is_array($itemsData)) {
+            $items = $itemsData;
+        } else {
+            return ['success' => false, 'message' => 'Tipo de datos de reordenación inesperado.'];
+        }
+        
+        if (!is_array($items) || empty($items)) {
+             return ['success' => false, 'message' => 'No se proporcionaron elementos válidos para reordenar.'];
+        }
+
+        // Ensure all items are integers (IDs)
+        $items = array_map('intval', $items);
+        $items = array_filter($items, function($id) { return $id > 0; });
+
+        if (empty($items)) {
+            return ['success' => false, 'message' => 'No hay IDs de elemento válidos para reordenar.'];
         }
 
         if ($this->model->reorderItems($items)) {

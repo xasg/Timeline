@@ -11,7 +11,7 @@
 </FilesMatch>
 
 # Allow common media types
-<FilesMatch "\.(jpg|jpeg|png|gif|pdf|mp4|mov|avi|webm)$">
+<FilesMatch "\.(jpg|jpeg|png|gif|pdf|mp4|mov|avi|webm|webp|wmv)$">
     Order Allow,Deny
     Allow from all
 </FilesMatch>
