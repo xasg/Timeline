@@ -72,6 +72,12 @@ include 'views/layouts/header.php';
                             <p><?php echo htmlspecialchars($item['extended_content']); ?></p>
                         </div>
                     <?php endif; ?>
+
+                    <div class="timeline-share-buttons">
+                        <button class="share-btn x-share-btn" data-title="<?php echo htmlspecialchars($item['title']); ?>" data-url="<?php echo htmlspecialchars("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"); ?>"><img src="assets/images/x_logo.png" alt="X"></button>
+                        <button class="share-btn facebook-share-btn" data-url="<?php echo htmlspecialchars("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"); ?>"><img src="assets/images/facebook_logo.png" alt="Facebook"></button>
+                        <button class="share-btn whatsapp-share-btn" data-title="<?php echo htmlspecialchars($item['title']); ?>" data-url="<?php echo htmlspecialchars("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"); ?>"><img src="assets/images/whatsapp_logo.png" alt="WhatsApp"></button>
+                    </div>
                 </div>
             </div>
         <?php endforeach; ?>
