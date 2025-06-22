@@ -23,7 +23,9 @@ try {
 }
 
 // Start session
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Authentication check function
 function isAuthenticated() {
