@@ -22,11 +22,15 @@ document.addEventListener('DOMContentLoaded', function() {
   // Share functionality
   document.querySelectorAll('.x-share-btn').forEach(button => {
     button.addEventListener('click', function() {
-      const title = this.dataset.title;
-      const url = this.dataset.url;
-      const text = `Écha un vistazo a este evento en la timeline de ANUIES-TIC: ${title}`;
-      const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
-      window.open(shareUrl, '_blank');
+      // Test alert for X button
+      alert('X button clicked. URL: ' + this.dataset.url + ' Title: ' + this.dataset.title);
+
+      // Original X share functionality (commented out for testing)
+      // const title = this.dataset.title;
+      // const url = this.dataset.url;
+      // const text = `Écha un vistazo a este evento en la timeline de ANUIES-TIC: ${title}`;
+      // const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+      // window.open(shareUrl, '_blank');
     });
   });
 
