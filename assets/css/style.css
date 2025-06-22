@@ -432,6 +432,17 @@ footer {
 .share-btn img {
     width: 20px;
     height: 20px;
+    max-width: 20px;
+    max-height: 20px;
+    object-fit: contain; /* Ensures aspect ratio is maintained */
+}
+
+.timeline-share-buttons .share-btn img { /* More specific selector */
+    width: 20px;
+    height: 20px;
+    max-width: 20px;
+    max-height: 20px;
+    object-fit: contain;
 }
 
 .share-btn:hover {
