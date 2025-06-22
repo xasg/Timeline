@@ -21,4 +21,14 @@ if ($_POST && isset($_POST['action']) && $_POST['action'] === 'upload_media') {
     http_response_code(400);
     echo json_encode(['success' => false, 'message' => 'Solicitud inválida']);
 }
+
+class TimelineController {
+    // existing properties and methods
+
+    public function uploadMedia() {
+        // Implement your media upload logic here
+        // Example response:
+        return ['success' => true, 'message' => 'Media uploaded successfully'];
+    }
+}
 ?>
