@@ -1,111 +1,111 @@
-# ANUIES TIC Timeline - PHP Version
+# Línea de Tiempo ANUIES TIC - Versión PHP
 
-## Overview
-This is a complete PHP-based timeline management system for the ANUIES TIC 10-year celebration. The system provides both public viewing and administrative management capabilities.
+## Descripción General
+Este es un sistema completo de gestión de línea de tiempo basado en PHP para la celebración de los 10 años de ANUIES TIC. El sistema proporciona capacidades tanto de visualización pública como de gestión administrativa.
 
-## Features
+## Características
 
-### Public Interface (`index.php`)
-- **Responsive Timeline Display**: Shows historical events, projects, and publications
-- **Category Filtering**: Filter by "eventos", "proyectos", or "publicaciones"  
-- **Modern UI**: ANUIES TIC branded design with animations
-- **Mobile Responsive**: Optimized for all device sizes
+### Interfaz Pública (`index.php`)
+- **Visualización de Línea de Tiempo Adaptable**: Muestra eventos históricos, proyectos y publicaciones.
+- **Filtrado por Categoría**: Filtra por "eventos", "proyectos" o "publicaciones".
+- **Interfaz de Usuario Moderna**: Diseño con la marca ANUIES TIC y animaciones.
+- **Adaptable a Móviles**: Optimizado para todos los tamaños de dispositivo.
 
-### Administrative System
-- **Secure Login** (`login.php`): Simple authentication system
-- **Admin Dashboard** (`admin.php`): Complete content management interface
-- **CRUD Operations**: Create, read, update, delete timeline items
-- **Content Management**: Manage titles, descriptions, dates, and extended content
-- **Media Support**: URL-based image integration
-- **Publication Control**: Draft and publish functionality
+### Sistema Administrativo
+- **Inicio de Sesión Seguro** (`login.php`): Sistema de autenticación simple.
+- **Panel de Administración** (`admin.php`): Interfaz completa de gestión de contenido.
+- **Operaciones CRUD**: Crear, leer, actualizar y eliminar elementos de la línea de tiempo.
+- **Gestión de Contenido**: Administra títulos, descripciones, fechas y contenido extendido.
+- **Soporte Multimedia**: Integración de imágenes basada en URL.
+- **Control de Publicación**: Funcionalidad de borrador y publicación.
 
-## Installation
+## Instalación
 
-### Requirements
-- PHP 7.4 or higher
-- MySQL 5.7 or higher
-- Web server (Apache/Nginx)
+### Requisitos
+- PHP 7.4 o superior
+- MySQL 5.7 o superior
+- Servidor web (Apache/Nginx)
 
-### Setup Steps
+### Pasos de Configuración
 
-1. **Database Setup**
+1. **Configuración de la Base de Datos**
    ```bash
    mysql -u root -p < database.sql
    ```
 
-2. **Configuration**
-   - Edit `config.php` to match your database credentials
-   - Update admin credentials if needed (default: admin/admin123)
+2. **Configuración**
+   - Edita `config.php` para que coincida con tus credenciales de base de datos.
+   - Actualiza las credenciales de administrador si es necesario (por defecto: admin/admin123).
 
-3. **File Permissions**
+3. **Permisos de Archivos**
    ```bash
    chmod 755 uploads/
    chmod 644 uploads/.htaccess
    ```
 
-4. **Web Server**
-   - Point document root to the `php/` directory
-   - Ensure mod_rewrite is enabled (for .htaccess)
+4. **Servidor Web**
+   - Apunta el `document root` al directorio `php/`.
+   - Asegúrate de que `mod_rewrite` esté habilitado (para `.htaccess`).
 
-## File Structure
+## Estructura de Archivos
 
 ```
 php/
-├── index.php          # Public timeline interface
-├── login.php          # Admin authentication
-├── admin.php          # Administration panel
-├── logout.php         # Session termination
-├── config.php         # Database and app configuration
-├── database.sql       # Database schema and initial data
-├── uploads/           # Media files directory
-│   ├── .htaccess     # Security configuration
-│   └── .gitkeep      # Keep directory in git
-└── README.md          # This file
+├── index.php          # Interfaz pública de la línea de tiempo
+├── login.php          # Autenticación de administrador
+├── admin.php          # Panel de administración
+├── logout.php         # Cierre de sesión
+├── config.php         # Configuración de la base de datos y la aplicación
+├── database.sql       # Esquema de la base de datos y datos iniciales
+├── uploads/           # Directorio de archivos multimedia
+│   ├── .htaccess     # Configuración de seguridad
+│   └── .gitkeep      # Mantiene el directorio en git
+└── README.md          # Este archivo
 ```
 
-## Database Schema
+## Esquema de la Base de Datos
 
 ### timeline_items
-- `id`: Primary key (auto-increment)
-- `title`: Item title (required)
-- `description`: Brief description (required)
-- `extended_content`: Detailed content (optional)
-- `date`: Display date (e.g., "Diciembre 2015")
-- `type`: Category (eventos/proyectos/publicaciones)
-- `image_url`: External image URL
-- `is_published`: Publication status (boolean)
-- `sort_order`: Display order
-- `created_at`/`updated_at`: Timestamps
+- `id`: Clave primaria (autoincremental)
+- `title`: Título del elemento (obligatorio)
+- `description`: Descripción breve (obligatoria)
+- `extended_content`: Contenido detallado (opcional)
+- `date`: Fecha de visualización (ej., "Diciembre 2015")
+- `type`: Categoría (eventos/proyectos/publicaciones)
+- `image_url`: URL de imagen externa
+- `is_published`: Estado de publicación (booleano)
+- `sort_order`: Orden de visualización
+- `created_at`/`updated_at`: Marcas de tiempo
 
 ### media_files
-- Basic file metadata storage
-- Currently supports URL-based images
-- Expandable for future file upload functionality
+- Almacenamiento básico de metadatos de archivos.
+- Actualmente admite imágenes basadas en URL.
+- Ampliable para futura funcionalidad de carga de archivos.
 
 ### admin_sessions
-- Session management for admin authentication
-- Automatic cleanup of expired sessions
+- Gestión de sesiones para autenticación de administrador.
+- Limpieza automática de sesiones expiradas.
 
-## Security Features
+## Características de Seguridad
 
-- **Password Hashing**: Uses PHP's password_hash() function
-- **SQL Injection Protection**: Prepared statements throughout
-- **XSS Prevention**: HTML entity encoding on all outputs
-- **CSRF Protection**: Form-based submissions only
-- **File Upload Security**: .htaccess restrictions in uploads directory
-- **Session Management**: Secure session handling
+- **Hashing de Contraseñas**: Utiliza la función `password_hash()` de PHP.
+- **Protección contra Inyección SQL**: Sentencias preparadas en todo el sistema.
+- **Prevención de XSS**: Codificación de entidades HTML en todas las salidas.
+- **Protección CSRF**: Envíos solo basados en formularios.
+- **Seguridad en Carga de Archivos**: Restricciones de `.htaccess` en el directorio `uploads`.
+- **Gestión de Sesiones**: Manejo seguro de sesiones.
 
-## Default Credentials
+## Credenciales por Defecto
 
-**Admin Access:**
-- Username: `admin`
-- Password: `admin123`
+**Acceso de Administrador:**
+- Usuario: `admin`
+- Contraseña: `admin123`
 
-⚠️ **Important**: Change these credentials in production by updating the `ADMIN_USER` and `ADMIN_PASS` constants in `config.php`.
+⚠️ **Importante**: Cambia estas credenciales en producción actualizando las constantes `ADMIN_USER` y `ADMIN_PASS` en `config.php`.
 
-## Initial Data
+## Datos Iniciales
 
-The system comes pre-loaded with 10 timeline items representing the ANUIES TIC history:
+El sistema viene precargado con 10 elementos en la línea de tiempo que representan la historia de ANUIES TIC:
 
 1. **Creación del Comité ANUIES TIC** (Diciembre 2015)
 2. **Primer Encuentro ANUIES TIC** (Noviembre 2016)
@@ -118,36 +118,36 @@ The system comes pre-loaded with 10 timeline items representing the ANUIES TIC h
 9. **Conferencia Internacional de Innovación Educativa** (Junio 2023)
 10. **Programa de Transformación Digital 2024** (Enero 2024)
 
-## Customization
+## Personalización
 
-### Styling
-All CSS is contained within the PHP files for easy deployment. Colors follow the ANUIES TIC brand guidelines:
-- Primary: `#882642`
-- Secondary: `#f8f8f8`
-- Accent: `#c16c81`
+### Estilos
+Todo el CSS está contenido dentro de los archivos PHP para facilitar la implementación. Los colores siguen las directrices de marca de ANUIES TIC:
+- Primario: `#882642`
+- Secundario: `#f8f8f8`
+- Acento: `#c16c81`
 
-### Adding Features
-The modular structure makes it easy to extend:
-- Add new admin views in `admin.php`
-- Extend the database schema as needed
-- Implement file upload functionality in the uploads system
+### Añadir Funcionalidades
+La estructura modular facilita la extensión:
+- Añade nuevas vistas de administración en `admin.php`.
+- Extiende el esquema de la base de datos según sea necesario.
+- Implementa la funcionalidad de carga de archivos en el sistema de `uploads`.
 
-## Production Considerations
+## Consideraciones para Producción
 
-1. **Change Default Credentials**: Update admin username/password
-2. **Database Security**: Use dedicated database user with minimal privileges
-3. **HTTPS**: Ensure SSL/TLS encryption for admin access
-4. **Backup Strategy**: Implement regular database backups
-5. **Error Logging**: Configure PHP error logging
-6. **Performance**: Consider caching for high-traffic scenarios
+1. **Cambiar Credenciales por Defecto**: Actualiza el nombre de usuario y contraseña del administrador.
+2. **Seguridad de la Base de Datos**: Utiliza un usuario de base de datos dedicado con privilegios mínimos.
+3. **HTTPS**: Asegura el cifrado SSL/TLS para el acceso de administrador.
+4. **Estrategia de Copias de Seguridad**: Implementa copias de seguridad regulares de la base de datos.
+5. **Registro de Errores**: Configura el registro de errores de PHP.
+6. **Rendimiento**: Considera el uso de caché para escenarios de alto tráfico.
 
-## Browser Support
+## Soporte de Navegadores
 
 - Chrome/Edge 90+
 - Firefox 88+
 - Safari 14+
-- Mobile browsers (iOS Safari, Chrome Mobile)
+- Navegadores móviles (iOS Safari, Chrome Mobile)
 
-## License
+## Licencia
 
-Developed for ANUIES TIC educational purposes.
+Desarrollado para fines educativos de ANUIES TIC.

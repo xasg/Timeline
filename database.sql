@@ -23,13 +23,14 @@ CREATE TABLE timeline_items (
 
 -- Media files table
 CREATE TABLE media_files (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    filename VARCHAR(255) NOT NULL,
-    original_name VARCHAR(255) NOT NULL,
-    mime_type VARCHAR(100) NOT NULL,
-    size INT NOT NULL,
-    file_path VARCHAR(500) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  filename VARCHAR(255) NOT NULL,
+  original_name VARCHAR(255) NOT NULL,
+  file_path VARCHAR(500) NOT NULL,
+  file_size INT NOT NULL,
+  mime_type VARCHAR(100) NOT NULL,
+  file_type ENUM('image', 'video', 'document') NOT NULL,
+  uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Admin sessions table
