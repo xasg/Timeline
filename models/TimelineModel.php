@@ -94,17 +94,35 @@ class TimelineModel {
     }
 
     public function reorderItems($items) {
+        if (!is_array($items)) {
+            error_log("TimelineModel::reorderItems received non-array input.");
+            return false;
+        }
+        // If $items is empty, it's a success (nothing to do) or could be an error based on requirements.
+        // For now, consider it a success.
+        if (empty($items)) {
+            return true;
+        }
+
         try {
             $this->pdo->beginTransaction();
-            foreach ($items as $order => $id) {
+            // The controller now sends $items as a simple array of IDs [id1, id2, id3]
+            // So, the $order should be $index + 1 as per typical sort_order.
+            foreach ($items as $index => $id) {
+                $itemId = (int) $id;
+                if ($itemId <= 0) {
+                    // Log or handle invalid item ID if necessary
+                    continue;
+                }
                 $stmt = $this->pdo->prepare("UPDATE timeline_items SET sort_order = ? WHERE id = ?");
-                $stmt->execute([$order, $id]);
+                // Assuming sort_order starts from 1
+                $stmt->execute([$index + 1, $itemId]);
             }
             $this->pdo->commit();
             return true;
         } catch(PDOException $e) {
             $this->pdo->rollBack();
-            error_log("Database error: " . $e->getMessage());
+            error_log("Database error during reorderItems: " . $e->getMessage());
             return false;
         }
     }
