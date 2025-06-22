@@ -430,20 +430,24 @@ footer {
 }
 
 .share-btn img {
-    width: 20px;
-    height: 20px;
-    max-width: 20px;
-    max-height: 20px;
-    object-fit: contain; /* Ensures aspect ratio is maintained */
+    width: 20px !important;
+    height: 20px !important;
+    max-width: 20px !important;
+    max-height: 20px !important;
+    object-fit: contain !important; /* Ensures aspect ratio is maintained */
+    display: block !important; /* Added for good measure */
 }
 
-.timeline-share-buttons .share-btn img { /* More specific selector */
+/* Removing the duplicated rule as the one above is now more forceful */
+/*
+.timeline-share-buttons .share-btn img {
     width: 20px;
     height: 20px;
     max-width: 20px;
     max-height: 20px;
     object-fit: contain;
 }
+*/
 
 .share-btn:hover {
     background-color: #e0e0e0;

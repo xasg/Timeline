@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Share functionality
+  // Share functionality
   document.querySelectorAll('.x-share-btn').forEach(button => {
     button.addEventListener('click', function() {
       const title = this.dataset.title;
