@@ -13,7 +13,7 @@ CREATE TABLE timeline_items (
     image_url VARCHAR(500),
     media_type VARCHAR(50),
     is_published BOOLEAN DEFAULT TRUE,
-    sort_order INT AUTO_INCREMENT,
+    sort_order INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     INDEX idx_type (type),

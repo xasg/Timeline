@@ -269,10 +269,20 @@ function saveOrder() {
     
     const form = document.createElement('form');
     form.method = 'POST';
-    form.innerHTML = `
-        <input type="hidden" name="action" value="reorder_items">
-        <input type="hidden" name="items" value="${JSON.stringify(newOrder)}">
-    `;
+    // form.action = ''; // Submit to the current page, which is admin.php
+
+    const actionInput = document.createElement('input');
+    actionInput.type = 'hidden';
+    actionInput.name = 'action';
+    actionInput.value = 'reorder_items';
+    form.appendChild(actionInput);
+
+    const itemsInput = document.createElement('input');
+    itemsInput.type = 'hidden';
+    itemsInput.name = 'items';
+    itemsInput.value = JSON.stringify(newOrder); // Correctly sets the value property
+    form.appendChild(itemsInput);
+
     document.body.appendChild(form);
     form.submit();
 }
